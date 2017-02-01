@@ -9,6 +9,11 @@ Please read this entire page as some features are not yet implemented.  If you u
 
 If you find this helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
 
+## Which file to flash
+If you're using the ESP01 board, select the binary with that extension.  This disables the second output and puts the DIR_A onto pin GPIO2.
+
+If you have a larger ESP with access to all the pins in the schematic, then download the standard bin file to ensure you get both outputs.
+
 ## Known Issues & Feedback
 Please see the issues tab for known issues or to submit bugs or suggestions
 
@@ -18,6 +23,7 @@ Please see the issues tab for known issues or to submit bugs or suggestions
  - C1 - 5 can be any caps and are used to ensure each component has a stable power supply.  I use 100nF.
  - You can use just one output if desired.  Simply don't connect the second MAX485 and associated components.
  - The MAX485 can be substituted for any compatible RS-485 transeiver.
+ - The LEDs are not used at present so you can leave them out.
 
 ## Flashing firmware
 ### Web UI OTA from my previous project
