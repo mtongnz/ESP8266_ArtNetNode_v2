@@ -5,6 +5,10 @@ This is a complete rewrite of my previous project found here: http://www.instruc
 
 As this code is still in beta, the source is not yet publicly available.  The device may also be unstable or unsuitable for use.
 
+Please read this entire page as some features are not yet implemented.  If you use this, please give me feedback so I can improove it.
+
+If you find this helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
+
 ## Known Issues
  - Occasional reboot ~10 seconds after start.  Normally sorts itself out after this.
  - Change Node Name via Web UI missing. This was an oversight when designing the GUI.  You can change it via DMX Workshop if you must :)
