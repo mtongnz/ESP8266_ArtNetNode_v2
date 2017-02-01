@@ -9,9 +9,8 @@ Please read this entire page as some features are not yet implemented.  If you u
 
 If you find this helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
 
-## Known Issues
- - Occasional reboot ~10 seconds after start.  Normally sorts itself out after this.
- - Change Node Name via Web UI missing. This was an oversight when designing the GUI.  You can change it via DMX Workshop if you must :)
+## Known Issues & Feedback
+Please see the issues tab for known issues or to submit bugs or suggestions
 
 ## Schematic notes
  - I have excluded any voltage convertion as I've found the ESP8266 has 5V tolerant pins. See here: http://ba0sh1.com/blog/2016/08/03/is-esp8266-io-really-5v-tolerant/
