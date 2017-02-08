@@ -18,6 +18,9 @@ If you have a larger ESP with access to all the pins in the schematic, then down
 Please see the issues tab for known issues or to submit bugs or suggestions
 
 ## Schematic notes
+ - The node_dmx_and_pix schematic is recommended as it allows for DMX with RDM & also ws2812(b) strips by using the convert_max485_to_pix
+ - The convert_max485_to_pix schematic is not a DMX driver for the strips!  It simply converts the logic back to the ws2812(b) logic.
+ - The node_pix_only schematic is for those of you who don't want DMX.  Note that all the DMX options are still in the firmware and may cause the pixel strips to do wierd things if selected.
  - I have excluded any voltage convertion as I've found the ESP8266 has 5V tolerant pins. See here: http://ba0sh1.com/blog/2016/08/03/is-esp8266-io-really-5v-tolerant/
  - The outputs are not isolated electrically or optically at this point.
  - C1 - 5 can be any caps and are used to ensure each component has a stable power supply.  I use 100nF.
@@ -50,8 +53,9 @@ If the device can't connect to the wifi or get a DHCP assigned address within (S
 I have implemented as many DMX Workshop/ArtNet V4 features as I possibly could.  You can change settings such as merge mode, IP address, DHCP, port addresses, node name...  Most of these are also available via the web UI.
 
 ## Features
- - 2 full universes of DMX output
- - Full RDM support for both outputs
+ - 2 full universes of DMX output with full RDM support for both outputs
+ - Up to 1360 ws2812(b) pixels - 8 full universes
+ - DMX/RDM out one port, ws2812(b) out the other
  - Web UI with mobile support
  - Web UI uses AJAX & JSON to minimize network traffic used & decrease latency
  - Full DMX Workshop support
@@ -59,8 +63,6 @@ I have implemented as many DMX Workshop/ArtNet V4 features as I possibly could. 
 ## To be done
 ### Scene storage
 I have not yet implemented the Scene Storage feature from my previous project.  I wish to improve on it and allow for making chases or effects.
-### LED Pixels
-This feature is requested a lot and it should be coming shortly.
 ### Handle artRdmSub packets
 I haven't yet implemented the artRdmSub messages.  This doesn't affect usability as they are optional and all devices must support artRdm packets.  The artRdmSub messages do provide a smaller network load and this should be coming shortly.
 ### DMX Input
