@@ -18,6 +18,7 @@ If you have a larger ESP with access to all the pins in the schematic, then down
 Please see the issues tab for known issues or to submit bugs or suggestions
 
 ## Schematic notes
+ - The ESP01 allows for one full DMX/RDM/Pixel port only.  Use pin GPIO2 instead of GPIO5 for the RDM direction pin.
  - The node_dmx_and_pix schematic is recommended as it allows for DMX with RDM & also ws2812(b) strips by using the convert_max485_to_pix
  - The convert_max485_to_pix schematic is not a DMX driver for the strips!  It simply converts the logic back to the ws2812(b) logic.
  - The node_pix_only schematic is for those of you who don't want DMX.  Note that all the DMX options are still in the firmware and may cause the pixel strips to do wierd things if selected.
