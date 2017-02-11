@@ -9,16 +9,23 @@ Please read this entire page as some features are not yet implemented.  If you u
 
 If you find this helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
 
-## Which file to flash
-If you're using the ESP01 board, select the binary with that extension.  This disables the second output and puts the DIR_A onto pin GPIO2.
+## New in beta4
+ - Settings reset button added.  Simply hold GPIO14 to GND on booting the device to reset all the settings to default.  Ensure GPIO14 is held to 3.3V via a resistor for normal operation.
+ - Pixel FX.  I have added a 12 channel mode with various effects for the ws2812 mode.  This is mainly for people with controllers with limited channels available to them.  See below for details on the channel mapping.
 
-If you have a larger ESP with access to all the pins in the schematic, then download the standard bin file to ensure you get both outputs.
+## Which file to flash
+If you have a larger ESP with access to all the pins in the schematic, then download the standard bin file to ensure you get both outputs with RDM and also the settings reset function.
+
+ESP01:  This disables the second output and puts the DIR_A onto pin GPIO2.
+
+NO_RESET:  This disables the startup "reset of settings" funtionality.  It is not recommended and is only provided for compatibility with devices without GPIO14 available or for those of you with an older version of my hardware.
 
 ## Known Issues & Feedback
 Please see the issues tab for known issues or to submit bugs or suggestions
 
 ## Schematic notes
  - The ESP01 allows for one full DMX/RDM/Pixel port only.  Use pin GPIO2 instead of GPIO5 for the RDM direction pin.
+ - GPIO14 is used to reset default settings.  Tie to 3.3V with a resistor for normal operation.  Hold to GND while the device is booting to wipe the settings and restore the defaults.  This feauture isn't available for ESP01 and a NO_RESET firmware is available also.
  - The node_dmx_and_pix schematic is recommended as it allows for DMX with RDM & also ws2812(b) strips by using the convert_max485_to_pix
  - The convert_max485_to_pix schematic is not a DMX driver for the strips!  It simply converts the logic back to the ws2812(b) logic.
  - The node_pix_only schematic is for those of you who don't want DMX.  Note that all the DMX options are still in the firmware and may cause the pixel strips to do wierd things if selected.
@@ -60,6 +67,7 @@ I have implemented as many DMX Workshop/ArtNet V4 features as I possibly could. 
  - Web UI with mobile support
  - Web UI uses AJAX & JSON to minimize network traffic used & decrease latency
  - Full DMX Workshop support
+ - Pixel FX - a 12 channel mode for ws2812 LED pixel control
 
 ## To be done
 ### Scene storage
@@ -68,3 +76,32 @@ I have not yet implemented the Scene Storage feature from my previous project.  
 I haven't yet implemented the artRdmSub messages.  This doesn't affect usability as they are optional and all devices must support artRdm packets.  The artRdmSub messages do provide a smaller network load and this should be coming shortly.
 ### DMX Input
 This is another feature a few people want.  I don't have plans to do this in the near future but it will come eventually.  The hardware as designed will support 1 input (from either DMX A or B) while still allowing an output.
+
+## Pixel FX
+To enable this mode, select WS2812 in the port settings and enter the number of pixels you wish to control.  Select '12 Channel FX'. 'Start Channel' is the DMX address of the first channel below.
+
+Note: You still need to set the Artnet net, subnet and universe correctly.
+
+| DMX Channel | Function | Values (0-255) |  |
+|----|----|----|----|
+| 1 | Intensity | 0 - 255   |               |
+| 2 | FX Select | 0 - 49    | Static        |
+|   |           | 50 - 74   | Rainbow       |
+|   |           | 75 - 99   | Theatre Chase |
+|   |           | 100 - 124 | Twinkle       |
+| 3 | Speed     | 0 - 19    | Stop - Index Reset |
+|   |           | 20 - 122  | Slow - Fast CW |
+|   |           | 123 - 130 | Stop |
+|   |           | 131 - 234 | Fast - Slow CCW |
+|   |           | 235 - 255 | Stop |
+| 4 | Position  | 0 - 127 - 255 | Left - Centre - Right |
+| 5 | Size      | 0 - 255   | Small - Big   |
+| 6 | Red 1     | 0 - 255   |  |
+| 7 | Green 1   | 0 - 255   |  |
+| 8 | Blue 1    | 0 - 255   |  |
+| 9 | Red 2     | 0 - 255   |  |
+| 10 | Green 2  | 0 - 255   |  |
+| 11 | Blue 2   | 0 - 255   |  |
+| 12 | Modify   | 0 - 255   | *Modify FX |
+
+Modify FX is only currently used for the Static effect and is used to resize colour 1 within the overall size.
