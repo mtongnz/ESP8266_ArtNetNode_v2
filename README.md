@@ -3,10 +3,6 @@ ESP8266 based WiFi ArtNet V4 to DMX, RDM and LED Pixels
 
 This is a complete rewrite of my previous project found here: http://www.instructables.com/id/ESP8266-Artnet-to-DMX/
 
-As this code is still in beta, the source is not yet publicly available.  The device may also be unstable or unsuitable for use.
-
-Please read this entire page as some features are not yet implemented.  If you use this, please give me feedback so I can improove it.
-
 If you find this helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
 
 ## New in beta4
