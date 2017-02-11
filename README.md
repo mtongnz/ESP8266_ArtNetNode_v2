@@ -96,12 +96,12 @@ Note: You still need to set the Artnet net, subnet and universe correctly.
 |   |           | 235 - 255 | Stop |
 | 4 | Position  | 0 - 127 - 255 | Left - Centre - Right |
 | 5 | Size      | 0 - 255   | Small - Big   |
-| 6 | Red 1     | 0 - 255   |  |
-| 7 | Green 1   | 0 - 255   |  |
-| 8 | Blue 1    | 0 - 255   |  |
-| 9 | Red 2     | 0 - 255   |  |
-| 10 | Green 2  | 0 - 255   |  |
-| 11 | Blue 2   | 0 - 255   |  |
+| 6 | Colour 1  | 0 - 255   | Red |
+| 7 |           | 0 - 255   | Green |
+| 8 |           | 0 - 255   | Blue |
+| 9 | Colour 2  | 0 - 255   | Red |
+| 10 |          | 0 - 255   | Green |
+| 11 |          | 0 - 255   | Blue |
 | 12 | Modify   | 0 - 255   | *Modify FX |
 
 Modify FX is only currently used for the Static effect and is used to resize colour 1 within the overall size.
