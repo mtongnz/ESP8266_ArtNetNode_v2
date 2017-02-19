@@ -38,6 +38,8 @@ Please see the issues tab for known issues or to submit bugs or suggestions
  - The LEDs are not used at present so you can leave them out.
 
 ## Flashing firmware
+Please note that the device will generally need a power cycle after updating the firmware.
+
 ### Web UI OTA from my previous project
 Flash https://github.com/mtongnz/ESP8266_ArtNetNode_DMX to your device (if not already on there) using the Arduino IDE and then use the Web UI to upload the .bin available in this git.
 ### Direct bin flash
@@ -58,6 +60,14 @@ In hotspot mode, goto 2.0.0.1 and in Wifi mode goto whatever the device IP might
 In the Wifi tab, enter your SSID and password.  Click save (it should go green and say Settings Saved).  Now click reboot and the device should connect to your Wifi.
 
 If the device can't connect to the wifi or get a DHCP assigned address within (Start Delay) seconds, it will start the hotspot and wait for 30 seconds for you to connect.  If a client doesn't connect to the hotspot in time, the device will restart and try again.
+
+### Restore Factory Defaults
+I have allowed for 2 methods to restore the factory default settings: using a dedicated factory reset button on GPIO14 or multiple power cycles.
+
+Method 1: Hold GPIO14 to GND while the device boots.  This method isn't available for the ESP01 or NO_RESET builds.
+
+Method 2: Allow the esp8266 about 1-4 seconds to start, then reset it (or power cycle).  Do this at least 5 times to restore factory default settings.
+
 ### DMX Workshop
 I have implemented as many DMX Workshop/ArtNet V4 features as I possibly could.  You can change settings such as merge mode, IP address, DHCP, port addresses, node name...  Most of these are also available via the web UI.
 
