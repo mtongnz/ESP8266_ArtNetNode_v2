@@ -5,9 +5,14 @@ This is a complete rewrite of my previous project found here: http://www.instruc
 
 If you find this helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
 
-## New in beta4
- - Settings reset button added.  Simply hold GPIO14 to GND on booting the device to reset all the settings to default.  Ensure GPIO14 is held to 3.3V via a resistor for normal operation.
- - Pixel FX.  I have added a 12 channel mode with various effects for the ws2812 mode.  This is mainly for people with controllers with limited channels available to them.  See below for details on the channel mapping.
+## New in beta5
+ - WS2812 timing refinements & allow interrupts during transmission
+ - Add DMX in feature
+ - Redo DMX library to have shorter interrupts to be compatible with the WS2812 output (max 3us interrupts)
+ - Added WDT reset catch - will boot without ports activated to allow changing settings - just for debug
+ - Added new settings reset method - reset the device (allow 1-4 seconds to boot) 5 times to restore default settings
+ beta5
+ - Added status feedback via Artnet with power on errors & a counter (~2s per count)
 
 ## Which file to flash
 If you have a larger ESP with access to all the pins in the schematic, then download the standard bin file to ensure you get both outputs with RDM and also the settings reset function.
