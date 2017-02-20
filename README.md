@@ -21,10 +21,13 @@ ESP01:  This disables the second output and puts the DIR_A onto pin GPIO2.
 
 NO_RESET:  This disables the startup "reset of settings" funtionality.  It is not recommended and is only provided for compatibility with devices without GPIO14 available or for those of you with an older version of my hardware.
 
+WEMOS:  This is compiled for Wemos D1 and similar boards.  It uses the 4M (3M SPIFFS) compiler option.
+
 ## Known Issues & Feedback
 Please see the issues tab for known issues or to submit bugs or suggestions
 
 ## Schematic notes
+ - Pin numbers used are ESP8266 GPIO numbers.  NodeMCU & Wemos boards use a different numbering system.  See below for details
  - The ESP01 allows for one full DMX/RDM/Pixel port only.  Use pin GPIO2 instead of GPIO5 for the RDM direction pin.
  - GPIO14 is used to reset default settings.  Tie to 3.3V with a resistor for normal operation.  Hold to GND while the device is booting to wipe the settings and restore the defaults.  This feauture isn't available for ESP01 and a NO_RESET firmware is available also.
  - The node_dmx_and_pix schematic is recommended as it allows for DMX with RDM & also ws2812(b) strips by using the convert_max485_to_pix
@@ -116,3 +119,14 @@ Note: You still need to set the Artnet net, subnet and universe correctly.
 | 12 | Modify   | 0 - 255   | *Modify FX |
 
 Modify FX is only currently used for the Static effect and is used to resize colour 1 within the overall size.
+
+## NodeMCU & Wemos Pins
+These boards use strange numbering that doesn't match the ESP8266 numbering.  Here are the main hookups needed:
+
+| NodeMCU & Wemos | ESP8266 GPIO | Purpose |
+|-----------------|--------------|---------|
+| TX | GPIO1 | DMX_TX_A |
+| D4 | GPIO2 | DMX_TX_B |
+| RX | GPIO3 | DMX_RX (for A & B) |
+| D1 | GPIO5 | DMX_DIR_A |
+| D0 | GPIO16 | DMX_DIR_B |
