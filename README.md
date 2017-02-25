@@ -3,7 +3,7 @@ ESP8266 based WiFi ArtNet V4 to DMX, RDM and LED Pixels
 
 This is a complete rewrite of my previous project found here: http://www.instructables.com/id/ESP8266-Artnet-to-DMX/
 
-If you find this helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
+If you find this helpful and you're feeling generous, I'd love for you to buy me a beer or some gear: https://www.paypal.me/mtongnz.  I have also decided that donators will recieve the final source code prior to the public release so I can get a bit more feedback and to say thanks.
 
 ## New in beta5
  - WS2812 timing refinements & allow interrupts during transmission
@@ -130,3 +130,13 @@ These boards use strange numbering that doesn't match the ESP8266 numbering.  He
 | RX | GPIO3 | DMX_RX (for A & B) |
 | D1 | GPIO5 | DMX_DIR_A |
 | D0 | GPIO16 | DMX_DIR_B |
+
+## Special Thanks To
+I'd like to thank these people.  They have either contributed with donations, a large amount of testing and feedback, or with their own code/projects that have been of assistance or inspiration.
+
+ - Tristan Thiltges
+ - Cyprien Leduc
+ - Jochen Schefe
+ - Jan Raeymaekers
+ - Wiktor Kaluzny
+ - Claude Heintz
