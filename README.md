@@ -6,6 +6,8 @@ This is a complete rewrite of my previous project found here: http://www.instruc
 If you find this helpful and you're feeling generous, I'd love for you to buy me a beer or some gear: https://www.paypal.me/mtongnz.  I have also decided that donators will recieve the final source code prior to the public release so I can get a bit more feedback and to say thanks.
 
 ## New in beta5
+ - Custom CSS stylesheet - goto /style and upload your design
+ - Gateway address setting as requested - not needed generally
  - WS2812 timing refinements & allow interrupts during transmission
  - Add DMX in feature
  - Redo DMX library to have shorter interrupts to be compatible with the WS2812 output (max 3us interrupts)
