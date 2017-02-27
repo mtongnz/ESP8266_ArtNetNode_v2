@@ -142,4 +142,5 @@ I'd like to thank these people.  They have either contributed with donations, a 
  - Jan Raeymaekers
  - Wiktor Kaluzny
  - Jean-Michel Blouin
+ - Tobias Schulz
  - Claude Heintz
