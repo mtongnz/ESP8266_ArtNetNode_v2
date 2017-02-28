@@ -144,4 +144,5 @@ I'd like to thank these people.  They have either contributed with donations, a 
  - Wiktor Kaluzny
  - Jean-Michel Blouin
  - Tobias Schulz
- - Claude Heintz
+ - (https://github.com/claudeheintz/ "Claude Heintz")
+ - (https://github.com/forkineye "Shelby Merrick - Forkineye")
