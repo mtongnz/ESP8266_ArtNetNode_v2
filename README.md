@@ -5,6 +5,11 @@ This is a complete rewrite of my previous project found here: http://www.instruc
 
 If you find this helpful and you're feeling generous, I'd love for you to buy me a beer or some gear: https://www.paypal.me/mtongnz.  I have also decided that donators will recieve the final source code prior to the public release so I can get a bit more feedback and to say thanks.
 
+## Private Source Code Release
+I have released the source code to people who have been supporting this project as a special thankyou.  If you would like to get access, send me a donation using the link above.  The public release of the code will be towards the end of April so watch this space.  By that time, I am hoping that a few more bugs have been worked out and a few more features added.
+
+If you have donated and not yet received an email with details, please contact me.
+
 ## New in beta5
  - sACN support
  - Custom CSS stylesheet - goto /style and upload your design
@@ -149,5 +154,7 @@ I'd like to thank these people.  They have either contributed with donations, a 
  - Volodymyr Bereza
  - Felix Hartmann
  - Ruud Leemans
+ - Bogumil palewicz
+ - Anton Manchenko
  - [Claude Heintz](https://github.com/claudeheintz/)
  - [Shelby Merrick (Forkineye)](https://github.com/forkineye)
