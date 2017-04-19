@@ -8,7 +8,12 @@ If you find this helpful and you're feeling generous, I'd love for you to buy me
 ## Private Source Code Release
 I have released the source code to people who have been supporting this project as a special thankyou.  If you would like to get access, send me a donation using the link above.  The public release of the code will be towards the end of April so watch this space.  By that time, I am hoping that a few more bugs have been worked out and a few more features added.
 
+There are 3 prizes up for grabs for people who fix/add some of the issues/features I haven't had time to finish yet.  These will still be on offer once the code goes public but donating lets you get a head start :)
+
 If you have donated and not yet received an email with details, please contact me.
+
+## What's the hold up?
+I apologize for the lack of development recently.  I've just started a new job, and that together with a number of weddings this summer has tied up most of my time.  I have released the beta5d source code to donators early as a special thankyou to them and the code will be made public by the end of April.  Thanks for your patience.
 
 ## New in beta5
  - sACN support
@@ -156,5 +161,9 @@ I'd like to thank these people.  They have either contributed with donations, a 
  - Ruud Leemans
  - Bogumil palewicz
  - Anton Manchenko
+ - Bogumil Palewicz
+ - Marcel Dolnak
+ - Paul Lim
+ - Geo Karavasilis
  - [Claude Heintz](https://github.com/claudeheintz/)
  - [Shelby Merrick (Forkineye)](https://github.com/forkineye)
