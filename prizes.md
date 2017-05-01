@@ -12,10 +12,15 @@ They feature full optical and electrical isolation, an ESP100 with 8M flash, and
 In order to receive one, please complete one of the following tasks.  You can "win" multiple boards.
 
 1 - Fix the WDT reset issue (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/41)
+
 2 - Implement stored scenes function.  I want it to allow for static scenes or for chases to run.
+
 3 - Most bug fixes, code improvements, feature additions & helpful submissions.
+
     eg. Fixing the flickering WS2812 (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/36)
+    
         Adding other pixel strips (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/42)
+        
         Creating new web UI theme (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/22)
 
 These prizes will be based on the first person to submit a solution that I judge to be adequate.  My decision is final.
