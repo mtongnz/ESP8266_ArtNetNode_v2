@@ -1,0 +1,33 @@
+#######################################
+# Syntax Coloring Map espDMX
+#######################################
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+espDMX		KEYWORD1
+dmxA		KEYWORD1
+dmxB		KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin		KEYWORD2
+end		KEYWORD2
+pause		KEYWORD2
+unPause		KEYWORD2
+ledIntensity	KEYWORD2
+setChans	KEYWORD2
+getChans	KEYWORD2
+clearChans	KEYWORD2
+numChans	KEYWORD2
+
+handler		KEYWORD2
+
+rdmEnable	KEYWORD2
+rdmDiscovery	KEYWORD2
+rdmSetCallBack	KEYWORD2
+rdmSendCommand	KEYWORD2
+todStatus	KEYWORD2
+todCount	KEYWORD2
+todMan		KEYWORD2
+todDev		KEYWORD2
+todSetCallBack	KEYWORD2
