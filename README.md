@@ -8,7 +8,7 @@ If you find this helpful and you're feeling generous, I'd love for you to buy me
 ## Prizes for Fixing Stuff
 There are 3 prizes up for grabs for people who fix/add some of the issues/features I haven't had time to finish yet.
 
-Have a look here for details:  https://github.com/mtongnz/ESP8266_ArtNetNode_v2/blob/source_release/prizes.md
+Have a look here for details:  https://github.com/mtongnz/ESP8266_ArtNetNode_v2/blob/master/prizes.md
 
 ## Which file to flash
 If you have a larger ESP with access to all the pins in the schematic, then download the standard bin file to ensure you get both outputs with RDM and also the settings reset function.
