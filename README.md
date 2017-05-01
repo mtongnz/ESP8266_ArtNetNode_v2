@@ -3,29 +3,12 @@ ESP8266 based WiFi ArtNet V4 to DMX, RDM and LED Pixels
 
 This is a complete rewrite of my previous project found here: http://www.instructables.com/id/ESP8266-Artnet-to-DMX/
 
-If you find this helpful and you're feeling generous, I'd love for you to buy me a beer or some gear: https://www.paypal.me/mtongnz.  I have also decided that donators will recieve the final source code prior to the public release so I can get a bit more feedback and to say thanks.
+If you find this helpful and you're feeling generous, I'd love for you to buy me a beer or some gear: https://www.paypal.me/mtongnz.  Thanks heaps to all those who have donated.  It's really appreciated
 
-## Private Source Code Release
-I have released the source code to people who have been supporting this project as a special thankyou.  If you would like to get access, send me a donation using the link above.  The public release of the code will be towards the end of April so watch this space.  By that time, I am hoping that a few more bugs have been worked out and a few more features added.
+## Prizes for Fixing Stuff
+There are 3 prizes up for grabs for people who fix/add some of the issues/features I haven't had time to finish yet.
 
-There are 3 prizes up for grabs for people who fix/add some of the issues/features I haven't had time to finish yet.  These will still be on offer once the code goes public but donating lets you get a head start :)
-
-If you have donated and not yet received an email with details, please contact me.
-
-## What's the hold up?
-I apologize for the lack of development recently.  I've just started a new job, and that together with a number of weddings this summer has tied up most of my time.  I have released the beta5d source code to donators early as a special thankyou to them and the code will be made public by the end of April.  Thanks for your patience.
-
-## New in beta5
- - sACN support
- - Custom CSS stylesheet - goto /style and upload your design
- - Gateway address setting as requested - not needed generally
- - WS2812 timing refinements & allow interrupts during transmission
- - Add DMX in feature
- - Redo DMX library to have shorter interrupts to be compatible with the WS2812 output (max 3us interrupts)
- - Added WDT reset catch - will boot without ports activated to allow changing settings - just for debug
- - Added new settings reset method - reset the device (allow 1-4 seconds to boot) 5 times to restore default settings
- beta5
- - Added status feedback via Artnet with power on errors & a counter (~2s per count)
+Have a look here for details:  https://github.com/mtongnz/ESP8266_ArtNetNode_v2/blob/source_release/prizes.md
 
 ## Which file to flash
 If you have a larger ESP with access to all the pins in the schematic, then download the standard bin file to ensure you get both outputs with RDM and also the settings reset function.
@@ -88,9 +71,11 @@ Method 2: Allow the esp8266 about 1-4 seconds to start, then reset it (or power 
 I have implemented as many DMX Workshop/ArtNet V4 features as I possibly could.  You can change settings such as merge mode, IP address, DHCP, port addresses, node name...  Most of these are also available via the web UI.
 
 ## Features
+ - sACN and ArtNet V4 support
  - 2 full universes of DMX output with full RDM support for both outputs
  - Up to 1360 ws2812(b) pixels - 8 full universes
  - DMX/RDM out one port, ws2812(b) out the other
+ - DMX in - send to any ArtNet device
  - Web UI with mobile support
  - Web UI uses AJAX & JSON to minimize network traffic used & decrease latency
  - Full DMX Workshop support
@@ -101,8 +86,8 @@ I have implemented as many DMX Workshop/ArtNet V4 features as I possibly could. 
 I have not yet implemented the Scene Storage feature from my previous project.  I wish to improve on it and allow for making chases or effects.
 ### Handle artRdmSub packets
 I haven't yet implemented the artRdmSub messages.  This doesn't affect usability as they are optional and all devices must support artRdm packets.  The artRdmSub messages do provide a smaller network load and this should be coming shortly.
-### DMX Input
-This is another feature a few people want.  I don't have plans to do this in the near future but it will come eventually.  The hardware as designed will support 1 input (from either DMX A or B) while still allowing an output.
+### Pixels other than WS2812
+A few people have asked for this and it shouldn't be too hard, except for the Pixel FX engine integration.
 
 ## Pixel FX
 To enable this mode, select WS2812 in the port settings and enter the number of pixels you wish to control.  Select '12 Channel FX'. 'Start Channel' is the DMX address of the first channel below.
