@@ -25,6 +25,9 @@ WEMOS:  This is compiled for Wemos D1 and similar boards.  It uses the 4M (3M SP
 Please see the issues tab for known issues or to submit bugs or suggestions
 
 ## Schematic notes
+esp_Artnet_RDM_isolated_v2.jpg is the latest version.  It uses APA106 LEDs for status.  This frees up more pins for future use - possibly with an LCD or more outputs.  You could modify the source if you wish to use normal LEDs instead.
+
+The following notes are for the older schematic but some may apply to the current schematic so I've left it here:
  - Pin numbers used are ESP8266 GPIO numbers.  NodeMCU & Wemos boards use a different numbering system.  See below for details
  - The ESP01 allows for one full DMX/RDM/Pixel port only.  Use pin GPIO2 instead of GPIO5 for the RDM direction pin.
  - GPIO14 is used to reset default settings.  Tie to 3.3V with a resistor for normal operation.  Hold to GND while the device is booting to wipe the settings and restore the defaults.  This feauture isn't available for ESP01 and a NO_RESET firmware is available also.
@@ -36,7 +39,6 @@ Please see the issues tab for known issues or to submit bugs or suggestions
  - C1 - 5 can be any caps and are used to ensure each component has a stable power supply.  I use 100nF.
  - You can use just one output if desired.  Simply don't connect the second MAX485 and associated components.
  - The MAX485 can be substituted for any compatible RS-485 transeiver.
- - The LEDs are not used at present so you can leave them out.
 
 ## Flashing firmware
 Please note that the device will generally need a power cycle after updating the firmware.
