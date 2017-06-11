@@ -1,5 +1,5 @@
 /*
-espArtNetNode v2.0.0 (pre-release)
+ESP8266_ArtNetNode v2.0.0
 Copyright (c) 2016, Matthew Tong
 https://github.com/mtongnz/ESP8266_ArtNetNode_v2
 
@@ -9,7 +9,6 @@ later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License along with this program.
 If not, see http://www.gnu.org/licenses/
 */
@@ -376,5 +375,85 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixelDouble(byte* data1, uint8_t pin1, byte
       "RSIL   %[r_int], 15;"                        // disable interrupts
       
     : [r_allow_int] "+r" (allowInterruptDouble), [r_int] "+r" (f), [r_cc1] "+r" (cc1), [r_cc2] "+r" (cc2), [r_set] "+r" (a), [r_bit] "+r" (b), [r_byte_count] "+r" (c), [r_data1] "+r" (d), [r_pin1] "+r" (pin1), [r_data_array1] "+r" (&data1[0]), [r_data2] "+r" (e), [r_pin2] "+r" (pin2), [r_data_array2] "+r" (&data2[0]), [r_num_bytes] "+r" (numBytes)
+  );
+}
+
+void ICACHE_RAM_ATTR ws2812Driver::doAPA106(byte* data, uint8_t pin, uint16_t numBytes) {
+  uint8_t a, b, c, d, f;
+  uint32_t cc1, cc2, cc3;
+  pin = (1 << pin);
+  
+  asm volatile (
+    "MOVI %[r_set], 0x60000304;"
+    
+    "RSIL   %[r_int], 15;"                      // disable interrupts
+
+    "doNextByte106:"
+      "BEQZ   %[r_num_bytes], doExit106;"             // exit if all bytes sent
+      
+      "L8UI   %[r_data], %[r_data_array], 0;"         // Load array element
+      "ADDI.N %[r_data_array], %[r_data_array], 1;"   // Move pointer to next array element
+      "ADDI.N %[r_num_bytes], %[r_num_bytes], -1;"    // Decrement number of bytes left
+      "MOVI %[r_bit], 0x80;"                          // Set our bitmask
+    
+    
+    "sendNextBit106:"
+      "RSR %[r_cc3], CCOUNT;"                     // Get clock cycles
+      "ADDI %[r_cc3], %[r_cc3], 230;"             // add to cycles - total bit length
+      "BALL %[r_data], %[r_bit], doOne106;"       // check if bit is one -> doOne
+      "j doZero106;"                              // doZero if it's not
+
+
+    "doNextBit106:"
+      "SRLI %[r_bit], %[r_bit], 1;"               // shift bitmask right
+      "BEQZ %[r_bit], doNextByte106;"             // get the next byte if all bits done
+      "j sendNextBit106;"                         // send the next bit
+
+    "Loop106:"
+      "RSR %[r_cc2], CCOUNT;"                       // Get clock cycles
+      "BGE %[r_cc3], %[r_cc2], Loop106;"            // If finishtime >= nowtime -> loop again
+      "j doNextBit106;"                             // otherwise do the next bit
+
+    
+    "doOne106:"
+      "S16I  %[r_pin], %[r_set], 0;"                  // set pin
+      "MEMW;"
+  
+      "RSR %[r_cc1], CCOUNT;"                         // get clock cycles
+      "ADDI %[r_cc1], %[r_cc1], 185;"                 // add to cycles for delay
+
+    "OneLoop106:"
+      "RSR %[r_cc2], CCOUNT;"                         // Get clock cycles
+      "BGE %[r_cc1], %[r_cc2], OneLoop106;"           // If finishtime >= nowtime -> loop again
+      
+      "S16I  %[r_pin], %[r_set], 4;"                  // clear pin
+      "MEMW;"
+      
+      "j Loop106;"
+  
+
+
+    "doZero106:"
+      "S16I  %[r_pin], %[r_set], 0;"                  // set pin
+      "MEMW;"
+
+      "RSR %[r_cc1], CCOUNT;"                         // get clock cycles
+      "ADDI %[r_cc1], %[r_cc1], 40;"                  // add to cycles for delay
+
+    "ZeroLoop106:"
+      "RSR %[r_cc2], CCOUNT;"                         // Get clock cycles
+      "BGE %[r_cc1], %[r_cc2], ZeroLoop106;"          // If finishtime >= nowtime -> loop again
+
+      "S16I  %[r_pin], %[r_set], 4;"                  // clear pin
+      "MEMW;"
+  
+      "j Loop106;"
+  
+
+    // Our exit point
+    "doExit106:"
+      "RSIL   %[r_int], 0;"   // enable interrupts again
+    
+    : [r_int] "+r" (f), [r_cc1] "+r" (cc1), [r_cc2] "+r" (cc2), [r_cc3] "+r" (cc3), [r_set] "+r" (a), [r_bit] "+r" (b), [r_byte_count] "+r" (c), [r_data] "+r" (d), [r_pin] "+r" (pin), [r_data_array] "+r" (&data[0]), [r_num_bytes] "+r" (numBytes)
   );
 }
