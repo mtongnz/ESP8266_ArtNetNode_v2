@@ -1,3 +1,35 @@
+/*
+ESP8266_ArtNetNode v2.0.0
+Copyright (c) 2016, Matthew Tong
+https://github.com/mtongnz/ESP8266_ArtNetNode_v2
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with this program.
+If not, see http://www.gnu.org/licenses/
+
+Note:
+This is a pre-release version of this software.  It is not yet ready for prime time and contains bugs (known and unknown).
+Please submit any bugs or code changes so they can be included into the next release.
+
+Prizes up for grabs:
+I am giving away a few of my first batch of prototype PCBs.  They will be fully populated - valued at over $30 just for parts.
+In order to recieve one, please complete one of the following tasks.  You can "win" multiple boards.
+1 - Fix the WDT reset issue (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/41)
+2 - Implement stored scenes function.  I want it to allow for static scenes or for chases to run.
+3 - Most bug fixes, code improvements, feature additions & helpful submissions.
+    eg. Fixing the flickering WS2812 (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/36)
+        Adding other pixel strips (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/42)
+        Creating new web UI theme (https://github.com/mtongnz/ESP8266_ArtNetNode_v2/issues/22)
+        
+These prizes will be based on the first person to submit a solution that I judge to be adequate.  My decision is final.
+This competition will open to the general public a couple of weeks after the private code release to supporters.
+*/
+
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
