@@ -1,5 +1,5 @@
 /*
-espArtNetNode v2.0.0 (pre-release)
+ESP8266_ArtNetNode v2.0.0
 Copyright (c) 2016, Matthew Tong
 https://github.com/mtongnz/ESP8266_ArtNetNode_v2
 
@@ -9,12 +9,9 @@ later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License along with this program.
 If not, see http://www.gnu.org/licenses/
 */
-
-
 
 
 #ifndef ws2812Driver_h
@@ -59,9 +56,10 @@ class ws2812Driver {
     bool allowInterruptSingle = true;
     bool allowInterruptDouble = true;
     
-  private:
-    
+    void doAPA106(byte* data, uint8_t pin, uint16_t numBytes);
     void doPixel(byte* data, uint8_t pin, uint16_t numBytes);
+    
+  private:
     void doPixelDouble(byte* data1, uint8_t pin1, byte* data2, uint8_t pin2, uint16_t numBytes);
     
     uint8_t _pin[2];
