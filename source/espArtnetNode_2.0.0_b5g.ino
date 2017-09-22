@@ -196,12 +196,12 @@ void setup(void) {
   SPIFFS.begin();
 
   // Check if SPIFFS formatted
-  if (SPIFFS.exists("/formatted.txt")) {
-    SPIFFS.format();
+  if (!SPIFFS.exists("/formatted.txt")) { 		// if formated.txt does not exits
+    SPIFFS.format(); 					// format the file system
     
-    File f = SPIFFS.open("/formatted.txt", "w");
-    f.print("Formatted");
-    f.close();
+    File f = SPIFFS.open("/formatted.txt", "w"); 	// open new file formatted.txt
+    f.print("Formatted");   				// write "Formatted into file
+    f.close();						// save file
   }
 
   // Load our saved values or store defaults
