@@ -244,7 +244,7 @@ class esp8266ArtNetRDM {
     IPAddress getSubnetMask();
     bool getDHCP();
 
-    void setNodeReport(char*, uint16_t);
+    void setNodeReport(const char*, uint16_t);
     void artPollReply();
 
     void sendDMX(uint8_t, uint8_t, IPAddress, uint8_t*, uint16_t);

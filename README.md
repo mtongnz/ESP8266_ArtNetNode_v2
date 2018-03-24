@@ -1,3 +1,25 @@
+### This is a fork of ESP8266_ArtNetNode_v2 by mtongnz.
+
+Serveral improvements and fixes have been implemented over "v2.0.0d (beta 5g)"
+
+- WS2812 no longer flicker
+- ESP8266WebServer leaked memory(open connections) gets reclaimed.
+- Reboot on low heap.
+- Universe 10 now ouputs raw pwm values to pins defined in pwmports[].
+- Default dmxA/B pins changed to D1/D2 to avoid boot flicker.
+- Improved heap usage.
+
+### Compile options:
+- CPU Frequency needs to be 160mhz, SDK 2.4.1 recommeded.
+- Set lwIP to "V2 Lower Memory"
+- Dont forget to upload SPIFFS (click on "ESP8266 Sketch Data Upload")
+- you can get an extra 4kb of heap by moving g_cont to sys area, this may kill timer callbacks and gdb as a side effekt https://github.com/esp8266/Arduino/pull/4553/commits/17bf98c01cd6ffc0cd1a1c48ade28ed0a01ffad0
+
+those options should give you about 45kB of heap.
+
+## Original README: 
+------------------
+
 # ESP8266_ArtNetNode_v2
 ESP8266 based WiFi ArtNet V4 to DMX, RDM and LED Pixels
 
