@@ -18,15 +18,20 @@ If not, see http://www.gnu.org/licenses/
 /* webFirmwareUpdate()
  *  display update status after firmware upload and restart
  */
+const char PROGMEM unknownError[] = "{\"success\":0,\"message\":\"Unknown Error\"}";
+const char PROGMEM successRestarting[] = "{\"success\":1,\"message\":\"Success: Device restarting\"}";
+const char PROGMEM insufficientSpace[] = "{\"success\":0,\"message\":\"Insufficient space.\"}";
+const char PROGMEM failedToSave[]= "{\"success\":0,\"message\":\"Failed to save\"}";
+const char PROGMEM strConnection[] = "Connection";
+const char PROGMEM strClose[] = "Close";
+const char PROGMEM applicationJson[] = "application/json";
+const char PROGMEM accessControlOrigin[] = "Access-Control-Allow-Origin";
 void webFirmwareUpdate() {
   // Generate the webpage from the variables above
-  String fail = "{\"success\":0,\"message\":\"Unknown Error\"}";
-  String ok = "{\"success\":1,\"message\":\"Success: Device restarting\"}";
-
   // Send to the client
-  webServer.sendHeader("Connection", "close");
-  webServer.sendHeader("Access-Control-Allow-Origin", "*");
-  webServer.send(200, "application/json", (Update.hasError()) ? fail : ok);
+  webServer.sendHeader(strConnection, strClose);
+  webServer.sendHeader(accessControlOrigin, "*");
+  webServer.send(200, applicationJson, (Update.hasError()) ? unknownError : successRestarting);
 
   doReboot = true;
 }
@@ -43,26 +48,26 @@ void webFirmwareUpload() {
   if(upload.status == UPLOAD_FILE_START){
     uint32_t maxSketchSpace = (ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000;
     if(!Update.begin(maxSketchSpace)){//start with max available size
-      reply = "{\"success\":0,\"message\":\"Insufficient space.\"}";
+      reply = insufficientSpace;
     }
   } else if(upload.status == UPLOAD_FILE_WRITE){
     if(Update.write(upload.buf, upload.currentSize) != upload.currentSize){
-      reply = "{\"success\":0,\"message\":\"Failed to save\"}";
+      reply = failedToSave;
     }
     
   } else if(upload.status == UPLOAD_FILE_END){
     if(Update.end(true)){ //true to set the size to the current progress
-      reply = "{\"success\":1,\"message\":\"Success: Device Restarting\"}";
+      reply = successRestarting;
     } else {
-      reply = "{\"success\":0,\"message\":\"Unknown Error\"}";
+      reply = unknownError;
     }
   }
   yield();
   
   // Send to the client
   if (reply.length() > 0) {
-    webServer.sendHeader("Connection", "close");
-    webServer.sendHeader("Access-Control-Allow-Origin", "*");
-    webServer.send(200, "application/json", reply);
+    webServer.sendHeader(strConnection, strClose);
+    webServer.sendHeader(accessControlOrigin, "*");
+    webServer.send(200, applicationJson, reply);
   }
 }
