@@ -13,6 +13,9 @@ Serveral improvements and fixes have been implemented over "v2.0.0d (beta 5g)"
 - CPU Frequency needs to be 160mhz, SDK 2.4.1 recommeded.
 - Set lwIP to "V2 Lower Memory"
 - Dont forget to upload SPIFFS (click on "ESP8266 Sketch Data Upload")
+- you can get an extra 4kb of heap by moving g_cont to sys area, this may kill timer callbacks and gdb as a side effekt https://github.com/esp8266/Arduino/pull/4553/commits/17bf98c01cd6ffc0cd1a1c48ade28ed0a01ffad0
+
+those options should give you about 45kB of heap.
 
 ## Original README: 
 ------------------
