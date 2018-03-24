@@ -19,7 +19,7 @@ If not, see http://www.gnu.org/licenses/
 // https://wp.josh.com/2014/05/13/ws2812-neopixels-are-not-so-finicky-once-you-get-to-know-them/
 
 #include "ws2812Driver.h"
-
+#include <interrupts.h>
 
 ws2812Driver::ws2812Driver() {
   _pixels[0] = 0;
@@ -104,19 +104,23 @@ uint16_t ws2812Driver::numPixels(uint8_t port) {
   return _pixels[port] / 3;
 }
 
-
+#define xt_disable_interrupts(state, level) __asm__ __volatile__("rsil %0," __STRINGIFY(level) "; esync; isync; dsync" : "=a" (state))
+#define xt_enable_interrupts(state)  __asm__ __volatile__("wsr %0,ps; esync" :: "a" (state) : "memory")
+#define XCHAL_NMI_VECOFS    0x00000020
+#define PS_EXCM_SHIFT    4
 bool ws2812Driver::show() {
+  yield();
   if (_nextPix > millis())
     return 0;
 
   if (_pixels[0] == 0 && _pixels[1] == 0)
     return 1;
   
-  yield();
-  
   byte* b0 = buffer[0];
   byte* b1 = buffer[1];
-  
+  uint32_t state;
+  void *nmi_isr;
+  xt_disable_interrupts(state, 15);
   if (_pixels[0] == 0)
     doPixel(b1, _pin[1], _pixels[1]);
   else if (_pixels[1] == 0)
@@ -127,7 +131,8 @@ bool ws2812Driver::show() {
     doPixelDouble(b0, _pin[0], b1, _pin[1], _pixels[0]);
 
   _nextPix = millis() + PIX_LATCH_TIME;
-  
+
+  xt_enable_interrupts(state);
   return 1;
 }
 
@@ -139,7 +144,7 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixel(byte* data, uint8_t pin, uint16_t num
   asm volatile (
     "MOVI %[r_set], 0x60000304;"
     
-    "RSIL   %[r_int], 15;"                      // disable interrupts
+    //"RSIL   %[r_int], 15;"                      // disable interrupts
 
     "doNextByteSingle:"
       "BEQZ   %[r_num_bytes], doExitSingle;"          // exit if all bytes sent
@@ -183,9 +188,9 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixel(byte* data, uint8_t pin, uint16_t num
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
       "ADDI %[r_cc1], %[r_cc1], 61;"      // add to cycles for delay - works at 67
       "BEQZ %[r_allow_int], SingleLoop;"  // if allowInt equals false, jump without enabling interrupts
-      "RSIL   %[r_int], 0;"               // enable interrupts again
-      "NOP;"                              // 1 clock for any interrupts to run
-      "RSIL   %[r_int], 15;"              // disable interrupts
+    //  "RSIL   %[r_int], 0;"               // enable interrupts again
+     // "NOP;"                              // 1 clock for any interrupts to run
+     // "RSIL   %[r_int], 15;"              // disable interrupts
       "j SingleLoop;"
   
 
@@ -207,15 +212,15 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixel(byte* data, uint8_t pin, uint16_t num
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
       "ADDI %[r_cc1], %[r_cc1], 85;"      // add to cycles for delay   - works at 105
       "BEQZ %[r_allow_int], SingleLoop;"  // if allowInt equals false, jump without enabling interrupts
-      "RSIL   %[r_int], 0;"               // enable interrupts again
-      "NOP;"                              // 1 clock for any interrupts to run
-      "RSIL   %[r_int], 15;"              // disable interrupts
+     // "RSIL   %[r_int], 0;"               // enable interrupts again
+     // "NOP;"                              // 1 clock for any interrupts to run
+      //"RSIL   %[r_int], 15;"              // disable interrupts
       "j SingleLoop;"
   
 
     // Our exit point
     "doExitSingle:"
-      "RSIL   %[r_int], 0;"   // enable interrupts again
+      //"RSIL   %[r_int], 0;"   // enable interrupts again
     
     : [r_allow_int] "+r" (allowInterruptSingle), [r_int] "+r" (f), [r_cc1] "+r" (cc1), [r_cc2] "+r" (cc2), [r_set] "+r" (a), [r_bit] "+r" (b), [r_byte_count] "+r" (c), [r_data] "+r" (d), [r_pin] "+r" (pin), [r_data_array] "+r" (&data[0]), [r_num_bytes] "+r" (numBytes)
   );
@@ -226,11 +231,65 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixelDouble(byte* data1, uint8_t pin1, byte
   uint32_t cc1, cc2;
   pin1 = (1 << pin1);
   pin2 = (1 << pin2);
-  
+
+  //irq is already disabled, lets mask the  non-maskable interrupt, this can lead to wdt resets on race. Should trigger nmi first.
+  //https://www.esp8266.com/viewtopic.php?f=9&t=3979&start=20
+   void *nmi_isr;
+  __asm__ __volatile__ ( 
+         "j function_entry\n"
+
+         ".align 128\n"
+         "vecbase_mod:\n"
+         "nop\n"
+
+         ".align 16\n"
+         "debug_exception_mod:\n"
+         "nop\n"
+
+         ".align 16\n"
+         "nmi_exception_mod:\n"
+         "wsr.excsave3 a0\n"         // preserve original a0 register
+         "rsr.epc3 a0\n"            // get PC from before interrupt
+         "jx a0\n"               // and jump back there
+
+         ".align 16\n"            //xxxx
+         "kernel_exception_mod:\n"
+         "nop\n"
+
+         ".align 16\n"            //xxxx
+         "nop\n"
+
+         ".align 16\n"
+         "user_exception_mod:\n"
+         "nop\n"
+
+         ".align 16\n"            //xxxx
+         "nop\n"
+
+         ".align 16\n"
+         "double_exception_mod:\n"
+         "nop\n"
+
+         ".align 16\n"            //xxxx
+         "nop\n"
+
+         ".align 16\n"
+         "panic_exception_mod:\n"
+         "nop\n"
+
+         "function_entry:\n"
+         "rsr.vecbase %0\n"
+         "movi a2, vecbase_mod\n"
+         "wsr.vecbase a2\n"
+
+         : "=r" (nmi_isr)
+         :
+         : "a2", "memory"
+   );
   asm volatile (
     "MOVI %[r_set], 0x60000304;"
     
-    "RSIL   %[r_int], 15;"                        // disable interrupts
+   // "RSIL   %[r_int], 15;"                        // disable interrupts
 
     "doNextByteDouble:"
       "BEQZ   %[r_num_bytes], doExitDouble;"            // exit if all bytes sent
@@ -290,9 +349,9 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixelDouble(byte* data1, uint8_t pin1, byte
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
       "ADDI %[r_cc1], %[r_cc1], 65;"      // add to cycles for delay
       "BEQZ %[r_allow_int], DoubleLoop;"  // if allowInt equals false, jump without enabling interrupts
-      "RSIL   %[r_int], 0;"               // enable interrupts again
-      "NOP;"                              // 1 clock for any interrupts to run
-      "RSIL   %[r_int], 15;"              // disable interrupts
+     // "RSIL   %[r_int], 0;"               // enable interrupts again
+     // "NOP;"                              // 1 clock for any interrupts to run
+      //"RSIL   %[r_int], 15;"              // disable interrupts
       "j DoubleLoop;"
       
 
@@ -311,9 +370,9 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixelDouble(byte* data1, uint8_t pin1, byte
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
       "ADDI %[r_cc1], %[r_cc1], 105;"     // add to cycles for delay
       "BEQZ %[r_allow_int], DoubleLoop;"  // if allowInt equals false, jump without enabling interrupts
-      "RSIL   %[r_int], 0;"               // enable interrupts again
-      "NOP;"                              // 1 clock for any interrupts to run
-      "RSIL   %[r_int], 15;"              // disable interrupts
+     // "RSIL   %[r_int], 0;"               // enable interrupts again
+    // "NOP;"                              // 1 clock for any interrupts to run
+     // "RSIL   %[r_int], 15;"              // disable interrupts
       "j DoubleLoop;"
       
 
@@ -337,9 +396,9 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixelDouble(byte* data1, uint8_t pin1, byte
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
       "ADDI %[r_cc1], %[r_cc1], 65;"      // add to cycles for delay
       "BEQZ %[r_allow_int], DoubleLoop;"  // if allowInt equals false, jump without enabling interrupts
-      "RSIL   %[r_int], 0;"               // enable interrupts again
-      "NOP;"                              // 1 clock for any interrupts to run
-      "RSIL   %[r_int], 15;"              // disable interrupts
+     // "RSIL   %[r_int], 0;"               // enable interrupts again
+      //"NOP;"                              // 1 clock for any interrupts to run
+      //"RSIL   %[r_int], 15;"              // disable interrupts
       "j DoubleLoop;"
       
 
@@ -363,26 +422,42 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixelDouble(byte* data1, uint8_t pin1, byte
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
       "ADDI %[r_cc1], %[r_cc1], 65;"      // add to cycles for delay
       "BEQZ %[r_allow_int], DoubleLoop;"  // if allowInt equals false, jump without enabling interrupts
-      "RSIL   %[r_int], 0;"               // enable interrupts again
-      "NOP;"                              // 1 clock for any interrupts to run
-      "RSIL   %[r_int], 15;"              // disable interrupts
+     // "RSIL   %[r_int], 0;"               // enable interrupts again
+     // "NOP;"                              // 1 clock for any interrupts to run
+      //"RSIL   %[r_int], 15;"              // disable interrupts
       "j DoubleLoop;"
       
 
 
     // Our exit point
     "doExitDouble:"
-      "RSIL   %[r_int], 15;"                        // disable interrupts
+    //  "RSIL   %[r_int], 15;"                        // disable interrupts
       
     : [r_allow_int] "+r" (allowInterruptDouble), [r_int] "+r" (f), [r_cc1] "+r" (cc1), [r_cc2] "+r" (cc2), [r_set] "+r" (a), [r_bit] "+r" (b), [r_byte_count] "+r" (c), [r_data1] "+r" (d), [r_pin1] "+r" (pin1), [r_data_array1] "+r" (&data1[0]), [r_data2] "+r" (e), [r_pin2] "+r" (pin2), [r_data_array2] "+r" (&data2[0]), [r_num_bytes] "+r" (numBytes)
   );
+  //restore nmi
+  
+    __asm__ __volatile__ (
+         "wsr.vecbase %0\n"            // restore original vecbase
+         "rsr.ps a2\n"               // check if we're running unter exception
+         "bbci a2, %2, function_end\n"   // indicated by EXCM bit in the PS register
+         "rsr.excsave3 a0\n"            // restore original a0
+         "movi a2, function_end\n"
+         "wsr.epc3 a2\n"               // generate return vector when original NMI returns
+         "addi %0, %0, %1\n"            // add offset to vecbase to get NMI ISR
+         "jx %0\n"                  // and jump to the original NMI ISR
+         "function_end:\n"
+         :
+         : "r" (nmi_isr), "i" (XCHAL_NMI_VECOFS), "i" (PS_EXCM_SHIFT)
+         : "a2", "memory"
+   );
 }
 
 void ICACHE_RAM_ATTR ws2812Driver::doAPA106(byte* data, uint8_t pin, uint16_t numBytes) {
   uint8_t a, b, c, d, f;
   uint32_t cc1, cc2, cc3;
   pin = (1 << pin);
-  
+  //InterruptLock lock; 
   asm volatile (
     "MOVI %[r_set], 0x60000304;"
     
@@ -457,3 +532,4 @@ void ICACHE_RAM_ATTR ws2812Driver::doAPA106(byte* data, uint8_t pin, uint16_t nu
     : [r_int] "+r" (f), [r_cc1] "+r" (cc1), [r_cc2] "+r" (cc2), [r_cc3] "+r" (cc3), [r_set] "+r" (a), [r_bit] "+r" (b), [r_byte_count] "+r" (c), [r_data] "+r" (d), [r_pin] "+r" (pin), [r_data_array] "+r" (&data[0]), [r_num_bytes] "+r" (numBytes)
   );
 }
+
