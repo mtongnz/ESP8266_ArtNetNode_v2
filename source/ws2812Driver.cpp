@@ -171,7 +171,7 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixel(byte* data, uint8_t pin, uint16_t num
       "MEMW;"
   
       "RSR %[r_cc1], CCOUNT;"           // get clock cycles
-      "ADDI %[r_cc1], %[r_cc1], 95;"    // add to cycles for delay - works at 100
+      "ADDI %[r_cc1], %[r_cc1], 100;"    // add to cycles for delay - works at 100
 
     "SingleOneLoop:"
       "RSR %[r_cc2], CCOUNT;"                         // Get clock cycles
@@ -181,7 +181,7 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixel(byte* data, uint8_t pin, uint16_t num
       "MEMW;"
       
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
-      "ADDI %[r_cc1], %[r_cc1], 61;"      // add to cycles for delay - works at 67
+      "ADDI %[r_cc1], %[r_cc1], 84;"      // add to cycles for delay - works at 67
       "BEQZ %[r_allow_int], SingleLoop;"  // if allowInt equals false, jump without enabling interrupts
       "RSIL   %[r_int], 0;"               // enable interrupts again
       "NOP;"                              // 1 clock for any interrupts to run
@@ -195,7 +195,7 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixel(byte* data, uint8_t pin, uint16_t num
       "MEMW;"
 
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
-      "ADDI %[r_cc1], %[r_cc1], 40;"      // add to cycles for delay - works at 50
+      "ADDI %[r_cc1], %[r_cc1], 44;"      // add to cycles for delay - works at 50
 
     "SingleZeroLoop:"
       "RSR %[r_cc2], CCOUNT;"                         // Get clock cycles
@@ -205,7 +205,7 @@ void ICACHE_RAM_ATTR ws2812Driver::doPixel(byte* data, uint8_t pin, uint16_t num
       "MEMW;"
   
       "RSR %[r_cc1], CCOUNT;"             // get clock cycles
-      "ADDI %[r_cc1], %[r_cc1], 85;"      // add to cycles for delay   - works at 105
+      "ADDI %[r_cc1], %[r_cc1], 116;"      // add to cycles for delay   - works at 105
       "BEQZ %[r_allow_int], SingleLoop;"  // if allowInt equals false, jump without enabling interrupts
       "RSIL   %[r_int], 0;"               // enable interrupts again
       "NOP;"                              // 1 clock for any interrupts to run
