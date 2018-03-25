@@ -1,0 +1,52 @@
+esp_Artnet_RDM_isolated_v2_BOM
+
+This is the bill of materials.  Please see https://github.com/mtongnz/ESP8266_ArtNetNode_v2
+for more details on this project.
+
+
+Part     Value              Device             Package
+
+5V_IN                       M02POLAR_LOCK      MOLEX-1X2_LOCK
+485A     MAX485DIL          MAX485DIL          DIL08
+485B     MAX485DIL          MAX485DIL          DIL08
+C1       100uF              CAP0805            0805
+C2       100uF              CAP0805            0805
+C3       10uF               CAP0805            0805
+C4       100uF              CAP0805            0805
+C5       10uF               CAP0805            0805
+C6       100uF              CAP0805            0805
+C7       10uF 35V           CAP_POLPTH1        CPOL-RADIAL-10UF-35V
+C8       10uF 35V           CAP_POLPTH1        CPOL-RADIAL-10UF-35V
+C9       100uF              CAP0805            0805
+C10      100uF              CAP0805            0805
+C11      100uF              CAP0805            0805
+C12      100uF              CAP0805            0805
+C13      100uF              CAP0805            0805
+DC1      5V-5V              NMA                NMA
+DC2      5V-5V              NMA                NMA
+DMX_A    NC3FAH2            NC3FAH2            NC3FAH2
+DMX_B    NC3FAH2            NC3FAH2            NC3FAH2
+ESP8266  ESP07-16PIN        ESP07-16PIN        ESP07-16PIN
+JP1                         M08LONGPADS        1X08_LONGPADS
+LED_A    5MM_WS2812_RGB_LED 5MM_WS2812_RGB_LED 4PIN_LED
+LED_B    5MM_WS2812_RGB_LED 5MM_WS2812_RGB_LED 4PIN_LED
+LED_P    5MM_WS2812_RGB_LED 5MM_WS2812_RGB_LED 4PIN_LED
+OK1      HCPL2630           HCPL2630           DIL08
+OK2      HCPL2630           HCPL2630           DIL08
+OK3      HCPL2630           HCPL2630           DIL08
+R1       3.3K               RESISTOR0805-RES   0805
+R2       3.3K               RESISTOR0805-RES   0805
+R3       470                RESISTOR0805-RES   0805
+R4       130                RESISTOR0805-RES   0805
+R5       560                RESISTOR0805-RES   0805
+R6       560                RESISTOR0805-RES   0805
+R7       560                RESISTOR0805-RES   0805
+R8       560                RESISTOR0805-RES   0805
+R9       130                RESISTOR0805-RES   0805
+R10      3.3K               RESISTOR0805-RES   0805
+R11      4.7K               RESISTOR0805-RES   0805
+R12      4.7K               RESISTOR0805-RES   0805
+R13      470                RESISTOR0805-RES   0805
+R14      470                RESISTOR0805-RES   0805
+U1       3.3V Reg           V_REG_LDOSMD       SOT23-5
+U2       5V Reg             V_REG_LDOSMD       SOT23-5
