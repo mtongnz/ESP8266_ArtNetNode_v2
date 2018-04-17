@@ -411,7 +411,7 @@ void loop(void) {
 
 //output pwm channels
   byte* dmxData = RAWPort.getChans();
-  for (int i = 0; i <= pwmcount; i++) {
+  for (int i = 0; i < pwmcount; i++) {
     if  (lastvalues[i] != dmxData[i]) {
       analogWrite(pwmports[i], map(dmxData[i], 0, 255, PWMRANGE, 0));
       lastvalues[i] = dmxData[i];
