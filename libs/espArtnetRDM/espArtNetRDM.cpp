@@ -1319,11 +1319,11 @@ char* esp8266ArtNetRDM::getLongName() {
   return _art->longName;
 }
 
-void esp8266ArtNetRDM::setNodeReport(char* c, uint16_t code) {
+void esp8266ArtNetRDM::setNodeReport(const char* c, uint16_t code) {
   if (_art == 0)
     return;
 
-  strcpy(_art->nodeReport, c);
+  strcpy_P(_art->nodeReport, c);
   _art->nodeReportCode = code;
 }
 
