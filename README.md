@@ -138,13 +138,8 @@ Here are the main hookups needed:
 | GPIO14 | D5 | Button for reset to factory defaults |
 
 ## Node status display
-<<<<<<< HEAD
-
 If a string of three WS2812 LEDs are connected to LED_A then they show the status of the device.
 
-=======
-If a string of three WS2812 LEDs are connected to LED_A then they show the status of the device.
->>>>>>> 2c72faf0c6336daa3e438329a16f7382e624a5a5
 | LED   | Display       | Color |
 | LED 1 | Channel A     | Cyan: DMX input sent to Artnet |
 |       |               | Blue: Artnet input sent to DMX (DMX mode) |
