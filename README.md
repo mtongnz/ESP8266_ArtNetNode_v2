@@ -122,16 +122,37 @@ Note: You still need to set the Artnet net, subnet and universe correctly.
 
 Modify FX is only currently used for the Static effect and is used to resize colour 1 within the overall size.
 
-## NodeMCU & Wemos Pins
-These boards use strange numbering that doesn't match the ESP8266 numbering.  Here are the main hookups needed:
+## ESP Pins used (including NodeMCU & Wemos)
+This is the pins used by the ArtNetNode firmware. The NodeMCU & Wemos/Lolin boards use strange numbering that doesn't match the ESP8266 numbering. They are show also
 
-| NodeMCU & Wemos | ESP8266 GPIO | Purpose |
-|-----------------|--------------|---------|
-| TX | GPIO1 | DMX_TX_A |
-| D4 | GPIO2 | DMX_TX_B |
-| RX | GPIO3 | DMX_RX (for A & B) |
-| D1 | GPIO5 | DMX_DIR_A |
-| D0 | GPIO16 | DMX_DIR_B |
+Here are the main hookups needed:
+
+| ESP8266 GPIO | NodeMCU & Wemos | Purpose |
+|--------------|-----------------|---------|
+| GPIO1  | TX | DMX_TX_A / WS2812 data A |
+| GPIO2  | D4 | DMX_TX_B / WS2812 data B |
+| GPIO3  | RX | DMX_RX (for A & B) |
+| GPIO5  | D1 | DMX_DIR_A |
+| GPIO16 | D0 | DMX_DIR_B |
+| GPIO12 | D6 | LED_A 3 x WS2812 for status display |
+| GPIO14 | D5 | Button for reset to factory defaults |
+
+## Node status display
+If a string of three WS2812 LEDs are connected to LED_A then they show the status of the device.
+
+| LED   | Display       | Color |
+|-------|---------------|-------|
+| LED 1 | Channel A     | Cyan: DMX input sent to Artnet |
+|       |               | Blue: Artnet input sent to DMX (DMX mode) |
+|       |               | Green: Artnet input sent to WS2812 (WS2812 mode) |
+| LED 2 | Channel B     | Cyan: DMX input sent to Artnet |
+|       |               | Blue: Artnet input sent to DMX (DMX mode) |
+|       |               | Green: Artnet input sent to WS2812 (WS2812 mode) |
+| LED 3 | Device status | Pink: Startup |
+|       |               | Green flashing: Hartbeat |
+|       |               | Red flashing: Error |
+
+For the node status display three WS2812 LEDs need to be connected to pin LED_A.
 
 ## Special Thanks To
 I'd like to thank these people.  They have either contributed with donations, a large amount of testing and feedback, or with their own code/projects that have been of assistance or inspiration.
