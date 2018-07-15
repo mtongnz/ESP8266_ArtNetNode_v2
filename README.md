@@ -141,6 +141,7 @@ Here are the main hookups needed:
 If a string of three WS2812 LEDs are connected to LED_A then they show the status of the device.
 
 | LED   | Display       | Color |
+|-------|---------------|-------|
 | LED 1 | Channel A     | Cyan: DMX input sent to Artnet |
 |       |               | Blue: Artnet input sent to DMX (DMX mode) |
 |       |               | Green: Artnet input sent to WS2812 (WS2812 mode) |
