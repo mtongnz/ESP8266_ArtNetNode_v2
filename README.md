@@ -137,6 +137,23 @@ Here are the main hookups needed:
 | GPIO12 | D6 | LED_A 3 x WS2812 for status display |
 | GPIO14 | D5 | Button for reset to factory defaults |
 
+## Node status display
+
+If a string of three WS2812 LEDs are connected to LED_A then they show the status of the device.
+
+| LED   | Display       | Color |
+| LED 1 | Channel A     | Cyan: DMX input sent to Artnet |
+|       |               | Blue: Artnet input sent to DMX (DMX mode) |
+|       |               | Green: Artnet input sent to WS2812 (WS2812 mode) |
+| LED 2 | Channel B     | Cyan: DMX input sent to Artnet |
+|       |               | Blue: Artnet input sent to DMX (DMX mode) |
+|       |               | Green: Artnet input sent to WS2812 (WS2812 mode) |
+| LED 3 | Device status | Pink: Startup |
+|       |               | Green flashing: Hartbeat |
+|       |               | Red flashing: Error |
+
+For the node status display three WS2812 LEDs need to be connected to pin LED_A.
+
 ## Special Thanks To
 I'd like to thank these people.  They have either contributed with donations, a large amount of testing and feedback, or with their own code/projects that have been of assistance or inspiration.
 
