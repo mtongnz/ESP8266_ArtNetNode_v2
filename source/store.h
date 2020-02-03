@@ -34,7 +34,8 @@ enum p_type {
 
 enum p_protocol {
   PROT_ARTNET = 0,
-  PROT_ARTNET_SACN = 1
+  PROT_SACN_UNICAST = 1,
+  PROT_SACN_MULTICAST = 2
 };
 
 enum p_merge {
@@ -113,9 +114,12 @@ void eepromLoad() {
   } else {
     eepromSave();
     delay(500);
-    
+	WiFi.persistent(false);
+	
     ESP.eraseConfig();
+	
+	WiFi.disconnect();
+    ESP.restart();
     while(1);
   }
 }
-
