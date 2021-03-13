@@ -98,7 +98,7 @@ bool ajaxSave(uint8_t page, JsonObject& json) {
       deviceSettings.ip = IPAddress(json["ipAddress"][0],json["ipAddress"][1],json["ipAddress"][2],json["ipAddress"][3]);
       deviceSettings.subnet = IPAddress(json["subAddress"][0],json["subAddress"][1],json["subAddress"][2],json["subAddress"][3]);
       deviceSettings.gateway = IPAddress(json["gwAddress"][0],json["gwAddress"][1],json["gwAddress"][2],json["gwAddress"][3]);
-      deviceSettings.broadcast = deviceSettings.ip | (~deviceSettings.subnet);
+      deviceSettings.broadcast = uint32_t(deviceSettings.ip) | (~uint32_t(deviceSettings.subnet));
       //deviceSettings.broadcast = {~deviceSettings.subnet[0] | (deviceSettings.ip[0] & deviceSettings.subnet[0]), ~deviceSettings.subnet[1] | (deviceSettings.ip[1] & deviceSettings.subnet[1]), ~deviceSettings.subnet[2] | (deviceSettings.ip[2] & deviceSettings.subnet[2]), ~deviceSettings.subnet[3] | (deviceSettings.ip[3] & deviceSettings.subnet[3])};
 
       json.get<String>("nodeName").toCharArray(deviceSettings.nodeName, 18);
@@ -741,4 +741,3 @@ void ajaxLoad(uint8_t page, JsonObject& jsonReply) {
       jsonReply["message"] = "Invalid or incomplete data received.";
   }
 }
-
